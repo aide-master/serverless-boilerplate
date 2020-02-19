@@ -13,6 +13,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/restrict-template-expressions': 'off',
     'react/jsx-closing-bracket-location': 'warn',
     'react/prop-types': 'off'
   }
