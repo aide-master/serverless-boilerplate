@@ -32,7 +32,7 @@ custom:
     createRoute53Record: true
   sentry:
     dsn: ${self:provider.environment.sentryDSN}
-  table: '${self:name}-${self:provider.environment.stage}'
+  table: '${self:service.name}-${self:provider.environment.stage}'
 
 
 # Add the serverless-webpack plugin
@@ -51,10 +51,11 @@ provider:
   memorySize: 256
   environment:
     stage: ${opt:stage, self:provider.stage}
-    sentryDSN: ${ssm:/${self:provider.environment.stage}/${self:name}/sentryDSN}
+    sentryDSN: ${ssm:/${self:service.name}/sentryDSN}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     TABLE: ${self:custom.table}
 
+functions:
   test:
     handler: handler.test
     events:
