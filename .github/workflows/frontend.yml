@@ -1,0 +1,26 @@
+on:
+  push:
+    tags:
+      - 'frontend@*'
+name: Deploy Frontend
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-node@master
+      with:
+        node-version: 12.x
+    - run: npm i -g serverless
+    - run: npm i
+      working-directory: ./packages/frontend
+    - run: |
+        echo AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID >> .env
+        echo AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY >> .env
+      working-directory: ./packages/frontend
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.aws_access_key_id }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.aws_secret_access_key }}
+    - run: sls
+      working-directory: ./packages/frontend

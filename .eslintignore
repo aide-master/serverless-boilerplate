@@ -1,0 +1,5 @@
+packages/**/node_modules/*
+node_modules/*
+/packages/frontend/src/serviceWorker.ts
+/packages/frontend/next-env.d.ts
+/packages/frontend/dist

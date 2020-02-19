@@ -1,0 +1,4 @@
+demo:
+  component: serverless-next.js
+  inputs:
+    domain: ["demo", "aidemaster.com"]

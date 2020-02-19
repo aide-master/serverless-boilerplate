@@ -1,0 +1,25 @@
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'packages/backend/**'
+      - '.github/workflows/deploy_dev_backend.yml'
+name: Deploy dev backend
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-node@master
+      with:
+        node-version: 12.x
+    - run: npm i -g serverless
+    - run: npm i
+      working-directory: ./packages/backend
+    - run: sls deploy
+      working-directory: ./packages/backend
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.aws_access_key_id }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.aws_secret_access_key }}

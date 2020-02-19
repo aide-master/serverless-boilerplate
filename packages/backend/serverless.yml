@@ -1,0 +1,82 @@
+service:
+  name: "demo"
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:DescribeTable
+      Resource:
+        - { "Fn::GetAtt": ["Table", "Arn" ] }
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules:
+      forceExclude:
+        - aws-sdk
+  serverless-offline:
+    port: 3886
+  domains:
+    prod: api.aidemaster.com
+    staging: staging-api.aidemaster.com
+    dev: dev-api.aidemaster.com
+  customDomain:
+    domainName: ${self:custom.domains.${self:provider.environment.stage}} # Change this to your domain.
+    basePath: 'demo' # This will be prefixed to all routes
+    stage: ${self:provider.environment.stage}
+    createRoute53Record: true
+  sentry:
+    dsn: ${self:provider.environment.sentryDSN}
+  table: '${self:name}-${self:provider.environment.stage}'
+
+
+# Add the serverless-webpack plugin
+plugins:
+  - serverless-sentry
+  - serverless-webpack
+  - serverless-domain-manager
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  apiGateway:
+    minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
+  memorySize: 256
+  environment:
+    stage: ${opt:stage, self:provider.stage}
+    sentryDSN: ${ssm:/${self:provider.environment.stage}/${self:name}/sentryDSN}
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    TABLE: ${self:custom.table}
+
+  test:
+    handler: handler.test
+    events:
+      - http:
+          method: get
+          path: test
+          cors: true
+
+resources:
+  Resources:
+    Table:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: name
+            AttributeType: S
+          - AttributeName: lang
+            AttributeType: S
+        KeySchema:
+          - AttributeName: name
+            KeyType: HASH
+          - AttributeName: lang
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.table}

@@ -1,0 +1,40 @@
+{
+  "name": "backend",
+  "private": true,
+  "version": "0.2.1",
+  "description": "Serverless webpack example using Typescript",
+  "main": "handler.js",
+  "scripts": {
+    "start": "sls offline start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@hapi/joi": "^17.1.0",
+    "axios": "^0.19.0",
+    "cls-hooked": "^4.2.2",
+    "dynamoose": "^1.11.1",
+    "lodash": "^4.17.15",
+    "node-html-parser": "^1.1.16",
+    "qs": "^6.9.1",
+    "serverless-sentry": "^1.2.0",
+    "socks-proxy-agent": "^5.0.0",
+    "source-map-support": "^0.5.10"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.17",
+    "@types/cls-hooked": "^4.3.0",
+    "@types/hapi__joi": "^16.0.4",
+    "@types/node": "^13.7.2",
+    "@types/qs": "^6.9.0",
+    "fork-ts-checker-webpack-plugin": "^4.0.4",
+    "serverless-domain-manager": "^3.3.1",
+    "serverless-offline": "^5.12.1",
+    "serverless-webpack": "^5.2.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.2.4",
+    "webpack": "^4.29.0",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
+  "license": "MIT"
+}
