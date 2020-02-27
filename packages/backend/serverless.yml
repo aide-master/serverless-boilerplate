@@ -1,17 +1,5 @@
 service:
   name: "demo"
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - dynamodb:Query
-        - dynamodb:Scan
-        - dynamodb:GetItem
-        - dynamodb:PutItem
-        - dynamodb:UpdateItem
-        - dynamodb:DeleteItem
-        - dynamodb:DescribeTable
-      Resource:
-        - { "Fn::GetAtt": ["Table", "Arn" ] }
 
 custom:
   webpack:
@@ -54,6 +42,18 @@ provider:
     sentryDSN: ${ssm:/${self:service.name}/sentryDSN}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     TABLE: ${self:custom.table}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:DescribeTable
+      Resource:
+        - { "Fn::GetAtt": ["Table", "Arn" ] }
 
 functions:
   test:
