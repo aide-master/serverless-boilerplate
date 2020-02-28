@@ -70,14 +70,10 @@ resources:
       Type: 'AWS::DynamoDB::Table'
       Properties:
         AttributeDefinitions:
-          - AttributeName: name
-            AttributeType: S
-          - AttributeName: lang
+          - AttributeName: id
             AttributeType: S
         KeySchema:
-          - AttributeName: name
+          - AttributeName: id
             KeyType: HASH
-          - AttributeName: lang
-            KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:custom.table}
