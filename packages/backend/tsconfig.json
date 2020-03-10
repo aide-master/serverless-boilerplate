@@ -8,7 +8,8 @@
     "sourceMap": true,
     "target": "es2017",
     "noImplicitAny": false,
-    "outDir": "lib"
+    "outDir": "lib",
+    "allowSyntheticDefaultImports": true
   },
   "include": ["./**/*.ts"],
   "exclude": [

@@ -3,6 +3,7 @@ import { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
 import axios, { AxiosRequestConfig } from 'axios'
 import { SocksProxyAgent } from 'socks-proxy-agent'
 import session from './session'
+import nanoid from 'nanoid'
 
 export const validate = (data: any, schema: Joi.AnySchema): any => {
   const result = schema.validate(data, {
@@ -19,7 +20,7 @@ type ControllerWrapper = (func: APIGatewayProxyHandler) => APIGatewayProxyHandle
 export const run: ControllerWrapper = (func) => {
   return async (event, _context, callback) => {
     return session.runPromise(async () => {
-      const requestId = event.requestContext.requestId
+      const requestId = event.requestContext ? event.requestContext.requestId : nanoid()
       session.set('requestId', requestId)
       console.time(requestId)
       let result: APIGatewayProxyResult
