@@ -3,6 +3,9 @@ name: npm audit
 on:
   schedule:
     - cron: '0 10 * * *'
+  push:
+    branches:
+      - master
 
 jobs:
   scan:
@@ -10,11 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
       - name: install dependencies
         run: npm ci
-      - uses: aide-master/npm-audit-action@v1.3.1
-        with:
-          audit_level: moderate
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          issue_assignees: aide-master
-          issue_labels: vulnerability,test
+      - run: npx lerna-audit
+      - uses: stefanzweifel/git-auto-commit-action@v4.2.0
+      with:
+        commit_message: npm audit
