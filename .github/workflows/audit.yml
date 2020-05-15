@@ -3,9 +3,6 @@ name: npm audit
 on:
   schedule:
     - cron: '0 10 * * *'
-  push:
-    branches:
-      - master
 
 jobs:
   scan:
