@@ -1,4 +1,4 @@
 demo:
-  component: serverless-next.js
+  component: "@sls-next/serverless-component@1.18.0"
   inputs:
     domain: ["demo", "aidemaster.com"]
