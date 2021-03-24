@@ -1,5 +1,4 @@
-service:
-  name: "demo"
+service: "demo"
 
 custom:
   webpack:
@@ -35,6 +34,8 @@ provider:
   stage: dev
   apiGateway:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
+    shouldStartNameWithService: true
+  lambdaHashingVersion: 20201221
   memorySize: 256
   environment:
     stage: ${opt:stage, self:provider.stage}
